@@ -75,6 +75,14 @@ def generate_villagies(map, village_number):
     return map
 
 
+def set_castle(map):
+    x_cord = random.randint(0, 399)
+    row = map[x_cord]
+    row = list(filter(lambda x: False if x.get("building") else True, row))
+    el = random.choice(row)
+    el["building"] = "castle"
+    return map
+
 
 def generate_base_map():
     map = [[{} for i in range(400)] for i in range(400)]
@@ -84,7 +92,8 @@ def generate_base_map():
             el["base_texture"] = base_texture
     map_with_islands = generate_islands(map, 20)
     map_with_villagies = generate_villagies(map_with_islands, 4)
-    return map_with_villagies
+    map_with_castle = set_castle(map_with_villagies)
+    return map_with_castle
 
 
 def generate_picture():
@@ -112,8 +121,17 @@ def generate_picture():
                 house = Image.open(f"{houses}/{item}")
                 house.resize((64, 64))
                 img.paste(house, (i*32, j*32))
-
-    img.save("full map with village.jpg")
+    for i in range(400):
+        row = map[i]
+        for j in range(400):
+            el = row[j]
+            if el.get("building") == "castle":
+                castles = "textures/castles"
+                item = random.choice(os.listdir(castles))
+                castle = Image.open(f"{castles}/{item}")
+                castle.resize((64, 64))
+                img.paste(castle, (i * 32, j * 32))
+    img.save("full map with castle.jpg")
     return map
 
 
@@ -123,7 +141,7 @@ i = 0
 
 for row in map:
     for el in row:
-        if el.get("building" ) ==   "farming_house":
+        if el.get("building") == "castle":
             i += 1
 
 print(i)
