@@ -51,6 +51,14 @@ class GoodCharacter:
         husband.partner = wife
         wife.partner = husband
 
+    def family(self):
+        family_dict = {
+            "mother": self.mother,
+            "father": self.father,
+            "children": self.children,
+        }
+        return family_dict
+
     def str_represent(self):
         avocation = ""
         if self.feudal_staircase == "peasant":
@@ -199,4 +207,4 @@ def generate_characters(numb_of_characters):
 
 characters = generate_characters(100)
 main_character = random.choice(characters)
-print(main_character.str_represent())
+#print(main_character.str_represent())
